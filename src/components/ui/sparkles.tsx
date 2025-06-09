@@ -62,7 +62,9 @@ export const SparklesCore: React.FC<SparklesProps> = (props) => {
                 enable: true,
                 mode: "repulse",
               },
-              resize: true,
+              resize:{
+                enable:true,
+              } 
             },
             modes: {
               push: {
@@ -98,7 +100,8 @@ export const SparklesCore: React.FC<SparklesProps> = (props) => {
             number: {
               density: {
                 enable: true,
-                value_area: 800,
+                width: 400,
+                height: 400,
               },
               value: particleDensity || 80,
             },
