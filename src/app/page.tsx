@@ -9,28 +9,18 @@ import Projects from "@/components/sections/Projects"
 import Experience from "@/components/sections/Experience"
 import Contact from "@/components/sections/Contact"
 import FloatingContact from "@/components/FloatingContact"
-import ThemeToggle from "@/components/ThemeToggle"
-import ResumeButton from "@/components/ResumeButton"
+import ChatBot from "@/components/ChatBot"
+import Navbar from "@/components/Navbar"
+import Footer from "@/components/Footer"
 import Preloader from "@/components/Preloader"
-import Link from "next/link"
-import Image from "next/image"
-import { useTheme } from "next-themes"
-import Head from "next/head"
 
 export default function Home() {
   const [mounted, setMounted] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  const { theme } = useTheme()
-
   useEffect(() => {
     setMounted(true)
-
-    const hasSeenPreloader = sessionStorage.getItem("hasSeenPreloader")
-
-    if (hasSeenPreloader) {
-      setLoading(false)
-    }
+    if (sessionStorage.getItem("hasSeenPreloader")) setLoading(false)
   }, [])
 
   const handlePreloaderComplete = () => {
@@ -42,33 +32,26 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <link rel="canonical" href="https://sreehariek.com/" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: "Sreehari E K",
-              url: "https://sreehariek.com",
-              sameAs: [
-                "https://github.com/ek-sree?tab=repositories",
-                "https://www.linkedin.com/in/sreehari-ek/",
-                "https://www.instagram.com/sree.hari.ek/"
-              ],
-              jobTitle: "Full Stack Developer",
-              worksFor: {
-                "@type": "Organization",
-                name: "Freelance / Open to Work"
-              },
-              description: "MERN Stack Developer passionate about full stack applications.",
-            }),
-          }}
-        />
-      </Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: "Sreehari E K",
+            url: "https://sreehariek.com",
+            sameAs: [
+              "https://github.com/ek-sree?tab=repositories",
+              "https://www.linkedin.com/in/sreehari-ek/",
+              "https://www.instagram.com/sree.hari.ek/",
+            ],
+            jobTitle: "Full Stack Developer",
+            worksFor: { "@type": "Organization", name: "Freelance / Open to Work" },
+            description: "MERN Stack Developer passionate about full stack applications.",
+          }),
+        }}
+      />
 
-      
       <AnimatePresence mode="wait">
         {loading && <Preloader key="preloader" onComplete={handlePreloaderComplete} />}
       </AnimatePresence>
@@ -79,33 +62,18 @@ export default function Home() {
             key="main-content"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative min-h-screen bg-white dark:bg-black"
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="relative min-h-screen overflow-x-clip bg-background text-foreground"
           >
+            {/* Ambient background glows */}
+            <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+              <div className="absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-primary/20 blur-[120px] dark:bg-primary/15" />
+              <div className="absolute bottom-0 right-[-10%] h-[420px] w-[520px] rounded-full bg-fuchsia-500/10 blur-[120px]" />
+            </div>
 
-            <motion.header
-              initial={{ y: -100 }}
-              animate={{ y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800"
-            >
-              <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-                <motion.h1
-                  className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <Link href="/">
-                  {theme=="dark" ? (<Image src="/s-icon.png" width={40} height={40} alt="s"/>) : ("S")}
-                  </Link>
-                </motion.h1>
-                <div className="flex items-center gap-4">
-                  <ResumeButton />
-                  <ThemeToggle />
-                </div>
-              </div>
-            </motion.header>
+            <Navbar />
 
-            <main className="pt-20">
+            <main>
               <Hero />
               <About />
               <Skills />
@@ -114,7 +82,9 @@ export default function Home() {
               <Contact />
             </main>
 
+            <Footer />
             <FloatingContact />
+            <ChatBot />
           </motion.div>
         )}
       </AnimatePresence>

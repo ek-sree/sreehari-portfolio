@@ -51,7 +51,7 @@ export const SparklesCore: React.FC<SparklesProps> = (props) => {
             enable: false,
             zIndex: 1,
           },
-          fpsLimit: 120,
+          fpsLimit: 60,
           interactivity: {
             events: {
               onClick: {
@@ -60,11 +60,11 @@ export const SparklesCore: React.FC<SparklesProps> = (props) => {
               },
               onHover: {
                 enable: true,
-                mode: "repulse",
+                mode: "grab",
               },
               resize:{
                 enable:true,
-              } 
+              }
             },
             modes: {
               push: {
@@ -106,7 +106,7 @@ export const SparklesCore: React.FC<SparklesProps> = (props) => {
               value: particleDensity || 80,
             },
             opacity: {
-              value: 0.5,
+              value: { min: 0.15, max: 0.5 },
             },
             shape: {
               type: "circle",

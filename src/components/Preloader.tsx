@@ -15,136 +15,60 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer)
-          setTimeout(onComplete, 500) 
+          setTimeout(onComplete, 450)
           return 100
         }
-        return prev + 2
+        return prev + 3
       })
-    }, 50)
-
+    }, 45)
     return () => clearInterval(timer)
   }, [onComplete])
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-white dark:bg-black"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.8, ease: "easeInOut" }}
+      transition={{ duration: 0.7, ease: "easeInOut" }}
     >
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
-      </div>
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 blur-[100px]" />
 
-      <div className="relative flex flex-col items-center space-y-8">
+      <div className="relative flex flex-col items-center gap-8">
         <motion.div
-          initial={{ scale: 0.5, opacity: 0 }}
+          initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center"
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="relative flex h-20 w-20 items-center justify-center"
         >
-          <motion.h1
-            className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
-            animate={{
-              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-            }}
-            style={{
-              backgroundSize: "200% 200%",
-            }}
-          >
-            Sreehari E K
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-gray-600 dark:text-gray-400 text-lg mt-4"
-          >
-            Crafting Digital Experiences
-          </motion.p>
-        </motion.div>
-
-        <div className="relative w-32 h-32">
-          {[...Array(3)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute inset-0 rounded-full border-2 border-gradient-to-r from-blue-600 to-purple-600"
-              style={{
-                borderImage: "linear-gradient(45deg, #3b82f6, #8b5cf6) 1",
-              }}
-              animate={{
-                rotate: 360,
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                rotate: {
-                  duration: 3 + i,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "linear",
-                },
-                scale: {
-                  duration: 2,
-                  repeat: Number.POSITIVE_INFINITY,
-                  delay: i * 0.2,
-                },
-              }}
-            />
-          ))}
-
-          <motion.div
-            className="absolute top-1/2 left-1/2 w-4 h-4 -mt-2 -ml-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600"
-            animate={{
-              scale: [1, 1.5, 1],
-              opacity: [0.7, 1, 0.7],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Number.POSITIVE_INFINITY,
-            }}
-          />
-        </div>
-
-        <div className="w-64 h-1 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
-          <motion.div
-            className="h-full bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
-            initial={{ width: "0%" }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.1 }}
-          />
-        </div>
-
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="text-center">
-          <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            {progress}%
+          <span className="absolute inset-0 animate-spin-slow rounded-full border border-dashed border-primary/40" />
+          <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary font-display text-2xl font-bold text-primary-foreground shadow-glow">
+            S
           </span>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Loading Experience...</p>
         </motion.div>
 
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
-            style={{
-              left: `${20 + i * 15}%`,
-              top: `${30 + (i % 2) * 40}%`,
-            }}
-            animate={{
-              y: [-20, 20, -20],
-              opacity: [0.3, 1, 0.3],
-            }}
-            transition={{
-              duration: 2 + i * 0.5,
-              repeat: Number.POSITIVE_INFINITY,
-              delay: i * 0.3,
-            }}
-          />
-        ))}
+        <div className="text-center">
+          <h1 className="font-display text-2xl font-bold tracking-tight">
+            Sreehari E K
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Crafting digital experiences
+          </p>
+        </div>
+
+        <div className="flex w-56 flex-col gap-2">
+          <div className="h-1 w-full overflow-hidden rounded-full bg-secondary">
+            <motion.div
+              className="h-full rounded-full bg-gradient-to-r from-primary to-fuchsia-500"
+              initial={{ width: "0%" }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.1 }}
+            />
+          </div>
+          <div className="flex justify-between text-xs text-muted-foreground">
+            <span>Loading</span>
+            <span className="font-mono">{progress}%</span>
+          </div>
+        </div>
       </div>
     </motion.div>
   )

@@ -2,184 +2,222 @@
 
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, ExternalLink, Github, Calendar } from "lucide-react"
+import { ArrowLeft, ExternalLink, Github, Calendar, Layers, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useParams } from "next/navigation"
+import { ProjectCover } from "@/components/ui/project-cover"
 import { projects } from "@/constants/project-data"
 
 export default function ProjectDetail() {
   const params = useParams()
-  const projectId = params.id
+  const project = projects.find((p) => p.id === Number(params.id))
 
-const project = projects.find((project)=>(project.id === Number(projectId)))
-  
+  // Toggle to show/hide the real screenshot gallery. When false, the layout
+  // stays balanced (Key features fills the main column) — no empty space.
+  const isPhotoVisible = false
+
+  if (!project) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background px-6 text-center">
+        <h1 className="font-display text-3xl font-bold">Project not found</h1>
+        <p className="text-muted-foreground">The project you&apos;re looking for doesn&apos;t exist.</p>
+        <Link href="/">
+          <Button className="rounded-full">
+            <ArrowLeft className="h-4 w-4" /> Back to portfolio
+          </Button>
+        </Link>
+      </div>
+    )
+  }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black pt-20">
-      <div className="container mx-auto px-4 py-8">
+    <div className="relative min-h-screen bg-background text-foreground">
+      {/* Ambient glow */}
+      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute -top-40 left-1/2 h-[480px] w-[760px] -translate-x-1/2 rounded-full bg-primary/15 blur-[120px]" />
+      </div>
 
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-8">
-          <Link href="/">
-            <Button variant="outline" className="gap-2">
-              <ArrowLeft className="w-4 h-4" />
-              Back to Portfolio
-            </Button>
+      <div className="container mx-auto max-w-5xl px-6 py-12 md:py-16">
+        <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/40 px-4 py-2 text-sm font-medium transition-colors hover:border-primary/40 hover:text-primary"
+          >
+            <ArrowLeft className="h-4 w-4" /> Back to portfolio
           </Link>
         </motion.div>
 
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="mt-10"
+        >
+          <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+            <span className="rounded-full border border-border bg-secondary/40 px-3 py-1 font-medium text-foreground/80">
+              {project.category}
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Calendar className="h-4 w-4" /> {project.year}
+            </span>
+          </div>
+          <h1 className="mt-4 font-display text-4xl font-bold tracking-tight sm:text-5xl">
+            {project.title}
+          </h1>
+          <p className="mt-4 max-w-2xl text-lg text-muted-foreground">{project.description}</p>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <div className="flex flex-col lg:flex-row gap-8 items-start">
-            <div className="flex-1">
-              <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                {project?.title}
-              </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">{project?.description}</p>
-
-              <div className="flex flex-wrap gap-4 mb-6">
-                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                  <Calendar className="w-4 h-4" />
-                  <span>{project?.year}</span>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                {project?.live&&(<Button asChild className="bg-gradient-to-r from-blue-600 to-purple-600">
-                  <a href={project?.live} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Live Demo
-                  </a>
-                </Button>)}
-                <Button variant="outline" asChild>
-                  <a href={project?.github} target="_blank" rel="noopener noreferrer">
-                    <Github className="w-4 h-4 mr-2" />
-                    View Code
-                  </a>
-                </Button>
-              </div>
-            </div>
-
-            <div className="lg:w-1/3">
-              <Card className="p-4">
-                <CardContent className="space-y-4">
-                  <h3 className="font-semibold text-lg">Technologies Used</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {project?.technologies.map((tech) => (
-                      <Badge key={tech} variant="secondary">
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            {project.live && (
+              <a
+                href={project.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow-sm transition-transform hover:-translate-y-0.5"
+              >
+                <ExternalLink className="h-4 w-4" /> Live demo
+              </a>
+            )}
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/40 px-5 py-2.5 text-sm font-semibold transition-colors hover:border-primary/40 hover:text-primary"
+            >
+              <Github className="h-4 w-4" /> View code
+            </a>
           </div>
         </motion.div>
 
-
+        {/* Hero image */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-          className="mb-12"
+          transition={{ delay: 0.15 }}
+          className="glass mt-12 overflow-hidden rounded-3xl p-2"
         >
-          <Image
-            src={project?.images[0] || "/placeholder.svg"}
-            alt={project?.title || "project image"}
-            width={800}
-            height={400}
-            className="w-full h-96 object-cover rounded-lg shadow-lg"
-          />
+          <div className="aspect-[2/1] w-full overflow-hidden rounded-2xl">
+            <ProjectCover project={project} />
+          </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-12">
+        <div className="mt-12 grid items-start gap-8 lg:grid-cols-3">
+          {/* Main column */}
+          <div className="space-y-10 lg:col-span-2">
+            <section>
+              <h2 className="font-display text-2xl font-bold">Overview</h2>
+              <p className="mt-4 leading-relaxed text-muted-foreground">{project.details}</p>
+            </section>
 
-          <div className="lg:col-span-2 space-y-8">
-
-            <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-              <h2 className="text-2xl font-bold mb-4">Project Overview</h2>
-              <div className="flex gap-2">
-                <div className="w-2 h-2 bg-amber-600 rounded-full mt-2 flex-shrink-0"></div>
-                <div>
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{ project?.architecture}</p>
-                </div>
-              </div>
-
-              <div className="flex gap-2">
-                <div className="w-2 h-2 bg-amber-600 rounded-full mt-2 flex-shrink-0"></div>
-                <div>
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{project?.details}</p>
-                </div>
-              </div>
-            </motion.section>
-
-            <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-              <h2 className="text-2xl font-bold mb-6">Screenshots</h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                {project?.images.map((screenshot, index) => (
-                  <motion.div
+            <section>
+              <h2 className="font-display text-2xl font-bold">Key features</h2>
+              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                {project.features.map((feature, index) => (
+                  <motion.li
                     key={index}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.5 + index * 0.1 }}
-                    whileHover={{ scale: 1.05 }}
-                    className="cursor-pointer"
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.05 }}
+                    className="glass flex gap-2.5 rounded-xl p-4 text-sm leading-relaxed text-foreground/80"
                   >
-                    <Image
-                      src={screenshot || "/placeholder.svg"}
-                      alt={`Screenshot ${index + 1}`}
-                      width={500}
-                      height={300}
-                      className="w-full h-48 object-cover rounded-lg shadow-md hover:shadow-lg transition-shadow"
-                    />
-                  </motion.div>
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    {feature}
+                  </motion.li>
+                ))}
+              </ul>
+            </section>
+
+            {isPhotoVisible && project.images.length > 1 && (
+              <section>
+                <h2 className="font-display text-2xl font-bold">Screenshots</h2>
+                <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                  {project.images.map((screenshot, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 16 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.05 }}
+                      className="glass overflow-hidden rounded-2xl"
+                    >
+                      <div className="flex items-center gap-1.5 border-b border-border/60 px-3 py-2.5">
+                        <span className="h-2 w-2 rounded-full bg-muted-foreground/30" />
+                        <span className="h-2 w-2 rounded-full bg-muted-foreground/30" />
+                        <span className="h-2 w-2 rounded-full bg-muted-foreground/30" />
+                      </div>
+                      <Image
+                        src={screenshot}
+                        alt={`${project.title} screenshot ${index + 1}`}
+                        width={600}
+                        height={360}
+                        className="h-48 w-full object-cover object-top"
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6 lg:sticky lg:top-24">
+            <div className="glass rounded-2xl p-6">
+              <h3 className="flex items-center gap-2 font-display text-lg font-bold">
+                <Layers className="h-4 w-4 text-primary" /> Tech stack
+              </h3>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {project.technologies.map((tech) => (
+                  <span
+                    key={tech}
+                    className="rounded-md border border-border bg-secondary/40 px-2.5 py-1 text-xs font-medium text-foreground/85"
+                  >
+                    {tech}
+                  </span>
                 ))}
               </div>
-            </motion.section>
-          </div>
+            </div>
 
-          <div className="space-y-6">
+            {project.architecture && (
+              <div className="glass rounded-2xl p-6">
+                <h3 className="font-display text-lg font-bold">Architecture</h3>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {project.architecture.map((a) => (
+                    <span
+                      key={a}
+                      className="rounded-md border border-primary/30 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary"
+                    >
+                      {a}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
 
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}>
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold mb-4">Key Features</h3>
-                  <ul className="space-y-2">
-                    {project?.features.map((feature, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                        <span className="text-gray-600 dark:text-gray-300">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 }}>
-              <Card>
-                <CardContent className="p-6 space-y-4">
-                  <h3 className="text-xl font-bold">Project Links</h3>
-                  <div className="space-y-3">
-                    {project?.live&&(<Button asChild className="w-full justify-start">
-                      <a href={project?.live} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        Live Demo
-                      </a>
-                    </Button>)}
-                    <Button variant="outline" asChild className="w-full justify-start">
-                      <a href={project?.github} target="_blank" rel="noopener noreferrer">
-                        <Github className="w-4 h-4 mr-2" />
-                        Source Code
-                      </a>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+            <div className="glass rounded-2xl p-6">
+              <h3 className="font-display text-lg font-bold">Project links</h3>
+              <div className="mt-4 space-y-2.5">
+                {project.live && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow-sm transition-transform hover:-translate-y-0.5"
+                  >
+                    <ExternalLink className="h-4 w-4" /> Live demo
+                  </a>
+                )}
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 rounded-xl border border-border bg-secondary/40 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-primary/40 hover:text-primary"
+                >
+                  <Github className="h-4 w-4" /> Source code
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

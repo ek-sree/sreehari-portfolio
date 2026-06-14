@@ -1,7 +1,6 @@
 "use client"
 
 import { Timeline } from "@/components/ui/timeline"
-import { Badge } from "@/components/ui/badge"
 import { Calendar, MapPin } from "lucide-react"
 import { experienceData } from "@/constants/experience-data"
 
@@ -9,34 +8,37 @@ const formatExperience = experienceData.map((item) => ({
   title: item.title,
   content: (
     <div>
-      <div className="mb-8 flex flex-col space-y-4">
-        <h3 className="text-2xl font-bold text-neutral-800 dark:text-neutral-200">{item.position}</h3>
-        <div className="text-lg font-semibold text-blue-600 dark:text-blue-400">{item.company}</div>
-        <div className="flex flex-col sm:flex-row gap-2 text-sm text-neutral-600 dark:text-neutral-400">
-          <div className="flex items-center gap-1">
-            <Calendar className="w-4 h-4" />
-            {item.date}
-          </div>
-          <div className="flex items-center gap-1">
-            <MapPin className="w-4 h-4" />
-            {item.location}
-          </div>
-        </div>
+      <h3 className="font-display text-xl font-bold">{item.position}</h3>
+      <div className="mt-1 font-medium text-primary">{item.company}</div>
+
+      <div className="mt-3 flex flex-col gap-2 text-sm text-muted-foreground sm:flex-row sm:gap-5">
+        <span className="inline-flex items-center gap-1.5">
+          <Calendar className="h-4 w-4" />
+          {item.date}
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <MapPin className="h-4 w-4" />
+          {item.location}
+        </span>
       </div>
 
-      <div className="mb-6">
+      <ul className="mt-5 space-y-2.5">
         {item.points.map((point, i) => (
-          <p key={i} className="text-neutral-700 dark:text-neutral-300 leading-relaxed mb-2">
-            • {point}
-          </p>
+          <li key={i} className="flex gap-2.5 text-sm leading-relaxed text-foreground/80">
+            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/70" />
+            {point}
+          </li>
         ))}
-      </div>
+      </ul>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="mt-5 flex flex-wrap gap-2">
         {item.tech.map((tech) => (
-          <Badge key={tech} variant="secondary" className="text-xs">
+          <span
+            key={tech}
+            className="rounded-md border border-border bg-secondary/40 px-2.5 py-1 text-xs font-medium text-foreground/85"
+          >
             {tech}
-          </Badge>
+          </span>
         ))}
       </div>
     </div>

@@ -1,211 +1,144 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { MapPin, Clock, Code, Heart, Lightbulb } from "lucide-react"
+import SectionHeading from "@/components/ui/section-heading"
+import { Code2, Rocket, MapPin, Sparkles, GraduationCap, Users } from "lucide-react"
+
+const TRAITS = [
+  { icon: Code2, label: "Clean code" },
+  { icon: Users, label: "Team player" },
+  { icon: GraduationCap, label: "Fast learner" },
+  { icon: Sparkles, label: "Problem solver" },
+]
+
+const HIGHLIGHTS = [
+  {
+    icon: Rocket,
+    title: "What I do",
+    body: "From responsive frontends to scalable backends, I turn ideas into production-ready products with a user-first mindset.",
+  },
+  {
+    icon: Code2,
+    title: "How I work",
+    body: "I care about clean architecture, maintainable code, and the small interaction details that make a product feel great.",
+  },
+]
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+}
 
 export default function About() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
-  }
-
-  const cardVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    },
-  }
-
   return (
-    <section
-      id="about"
-      className="py-20 bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 dark:from-gray-900 dark:via-blue-900/10 dark:to-purple-900/10"
-    >
-      <div className="container mx-auto px-4">
+    <section id="about" className="section">
+      <div className="container mx-auto max-w-6xl px-6">
+        <SectionHeading
+          eyebrow="About me"
+          title={
+            <>
+              Developer who sweats the <span className="text-gradient">details</span>
+            </>
+          }
+          subtitle="A Full Stack Developer with a love for intuitive interfaces and powerful digital experiences."
+        />
+
         <motion.div
-          variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="max-w-6xl mx-auto"
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ staggerChildren: 0.1 }}
+          className="mt-14 grid gap-5 lg:grid-cols-3"
         >
-
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
-              About Me
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
+          {/* Main intro card */}
+          <motion.div
+            variants={itemVariants}
+            className="glass relative overflow-hidden rounded-2xl p-8 lg:col-span-2"
+          >
+            <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary/10 blur-3xl" />
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-primary">
+                <Code2 className="h-5 w-5" />
+              </span>
+              <h3 className="font-display text-xl font-bold">Full Stack Developer</h3>
+            </div>
+            <div className="mt-6 space-y-4 leading-relaxed text-muted-foreground">
+              <p>
+                I&apos;m a Full Stack Developer with a love for clean code, intuitive
+                interfaces, and powerful digital experiences. Whether it&apos;s a dynamic web
+                platform or a smooth mobile app, I bring ideas to life with modern tech.
+              </p>
+              <p>
+                I enjoy solving real-world problems through code — and when I&apos;m not
+                building, I&apos;m exploring new tech and sharpening my craft.
+              </p>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {TRAITS.map((trait) => (
+                <span
+                  key={trait.label}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/40 px-3 py-1.5 text-xs font-medium"
+                >
+                  <trait.icon className="h-3.5 w-3.5 text-primary" />
+                  {trait.label}
+                </span>
+              ))}
+            </div>
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-8 mb-12">
-
-            <motion.div variants={itemVariants} className="lg:col-span-2">
-              <Card className="h-full bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl border-0 shadow-xl">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
-                      <Code className="w-6 h-6 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-800 dark:text-white">Full Stack Developer</h3>
-                  </div>
-
-                  <div className="space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed">
-                    <p>
-                      I&apos;m a Full Stack Developer with a love for clean code, intuitive interfaces, and powerful digital
-                      experiences. Whether it&apos;s a dynamic web platform or a smooth mobile app, I bring ideas to life
-                      with modern tech and a user-first mindset.
-                    </p>
-                    <p>
-                      From crafting responsive frontends to building scalable backends, I enjoy solving real-world
-                      problems through code.
-                    </p>
-                    <p>
-                      When I&apos;m not coding, I&apos;m usually exploring the latest tech trends, improving my skills, or working
-                      on side projects that challenge my creativity.
-                    </p>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 mt-6">
-                    <Badge
-                      variant="secondary"
-                      className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
-                    >
-                      Problem Solver
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
-                    >
-                      Team Player
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
-                    >
-                      Continuous Learner
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300"
-                    >
-                      Quick Learner
-                    </Badge>
-                  </div>
-                </CardContent>
-              </Card>
+          {/* Location card */}
+          <motion.div
+            variants={itemVariants}
+            className="glass relative flex flex-col justify-between overflow-hidden rounded-2xl p-8"
+          >
+            <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-50" />
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-glow"
+            >
+              <MapPin className="h-7 w-7" />
             </motion.div>
+            <div className="mt-6">
+              <h3 className="font-display text-lg font-bold">Based in Kerala, India</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Open to opportunities globally — remote or onsite, across time zones.
+              </p>
+            </div>
+          </motion.div>
 
-            <motion.div variants={itemVariants} className="flex items-center justify-center">
-              <Card className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 dark:from-blue-500/20 dark:to-purple-500/20 backdrop-blur-xl border-0 shadow-xl p-8">
-                <div className="text-center">
-                  <motion.div
-                    animate={{
-                      rotate: [0, 5, -5, 0],
-                      scale: [1, 1.05, 1],
-                    }}
-                    transition={{
-                      duration: 4,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                    }}
-                    className="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center"
-                  >
-                    <Code className="w-16 h-16 text-white" />
-                  </motion.div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">Crafting Digital Solutions</p>
-                </div>
-              </Card>
+          {/* Two highlight cards */}
+          {HIGHLIGHTS.map((h) => (
+            <motion.div
+              key={h.title}
+              variants={itemVariants}
+              className="glass group rounded-2xl p-7 transition-colors hover:border-primary/30"
+            >
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/15 text-primary">
+                <h.icon className="h-5 w-5" />
+              </span>
+              <h3 className="mt-4 font-display text-lg font-bold">{h.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{h.body}</p>
             </motion.div>
-          </div>
+          ))}
 
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <motion.div variants={cardVariants}>
-              <Card className="h-full bg-gradient-to-br from-blue-500/5 to-cyan-500/5 dark:from-blue-500/10 dark:to-cyan-500/10 backdrop-blur-xl border-0 shadow-xl hover:shadow-2xl transition-all duration-300">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg">
-                      <Heart className="w-5 h-5 text-white" />
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-800 dark:text-white">My Passion for Coding</h3>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    I love solving problems and building things through code. Programming isn&apos;t just my profession—it&apos;s
-                    my passion. I enjoy exploring new technologies, and enhancing my skills.
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div variants={cardVariants}>
-              <Card className="h-full bg-gradient-to-br from-purple-500/5 to-pink-500/5 dark:from-purple-500/10 dark:to-pink-500/10 backdrop-blur-xl border-0 shadow-xl hover:shadow-2xl transition-all duration-300">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg">
-                      <Lightbulb className="w-5 h-5 text-white" />
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-800 dark:text-white">Why I Love Coding</h3>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    I enjoy figuring out problems and creating things with code. Coding isn&apos;t just my job—it&apos;s something
-                    I really like doing.
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
-
-          <motion.div variants={itemVariants}>
-            <Card className="bg-gradient-to-r from-green-500/10 via-blue-500/10 to-purple-500/10 dark:from-green-500/20 dark:via-blue-500/20 dark:to-purple-500/20 backdrop-blur-xl border-0 shadow-xl">
-              <CardContent className="p-8">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl">
-                      <MapPin className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-1">
-                        Based in Kerala, India
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-300">Open to opportunities globally — remote or onsite</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl">
-                      <Clock className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="text-center md:text-left">
-                      <h4 className="font-semibold text-gray-800 dark:text-white">Flexible Schedule</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">Adaptable to different time zones</p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          {/* CTA strip */}
+          <motion.div
+            variants={itemVariants}
+            className="glass flex flex-col items-start justify-center rounded-2xl bg-primary/5 p-7"
+          >
+            <h3 className="font-display text-lg font-bold">Let&apos;s build something</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Have a project in mind? I&apos;d love to hear about it.
+            </p>
+            <button
+              onClick={() =>
+                document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow-sm transition-transform hover:-translate-y-0.5"
+            >
+              Start a conversation
+            </button>
           </motion.div>
         </motion.div>
       </div>
