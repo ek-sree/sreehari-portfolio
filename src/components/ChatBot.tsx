@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Bot, X, Send, Sparkles } from "lucide-react"
 
@@ -13,6 +13,63 @@ const SUGGESTIONS = [
 ]
 
 type Msg = { role: "user" | "assistant"; content: string }
+
+const CONTACT_PATTERN =
+  /(\bhttps?:\/\/[^\s)]+)|([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})|(\+?[\d\s\-().]{7,}(?=\s|$|[^a-zA-Z]))/g
+
+// Detect if a phone number in this text is preceded by a WhatsApp label
+function isWhatsApp(text: string, matchIndex: number): boolean {
+  const before = text.slice(Math.max(0, matchIndex - 30), matchIndex).toLowerCase()
+  return before.includes("whatsapp")
+}
+
+function renderMessageContent(text: string) {
+  const parts: React.ReactNode[] = []
+  let last = 0
+  let match: RegExpExecArray | null
+
+  CONTACT_PATTERN.lastIndex = 0
+  while ((match = CONTACT_PATTERN.exec(text)) !== null) {
+    if (match.index > last) parts.push(text.slice(last, match.index))
+
+    const [full, url, email, phone] = match
+    if (url) {
+      parts.push(
+        <a key={match.index} href={url} target="_blank" rel="noopener noreferrer"
+          className="text-primary underline underline-offset-2 hover:opacity-80 break-all">
+          {url}
+        </a>
+      )
+    } else if (email) {
+      parts.push(
+        <a key={match.index} href={`https://mail.google.com/mail/?view=cm&to=${email}`} target="_blank" rel="noopener noreferrer"
+          className="text-primary underline underline-offset-2 hover:opacity-80">
+          {email}
+        </a>
+      )
+    } else if (phone) {
+      const digits = phone.replace(/\D/g, "")
+      if (digits.length >= 7) {
+        const wa = isWhatsApp(text, match.index)
+        const href = wa
+          ? `https://wa.me/${digits}`
+          : `tel:${phone.trim()}`
+        parts.push(
+          <a key={match.index} href={href} target={wa ? "_blank" : undefined} rel={wa ? "noopener noreferrer" : undefined}
+            className="text-primary underline underline-offset-2 hover:opacity-80">
+            {phone}
+          </a>
+        )
+      } else {
+        parts.push(full)
+      }
+    }
+    last = match.index + full.length
+  }
+
+  if (last < text.length) parts.push(text.slice(last))
+  return parts
+}
 
 export default function ChatBot() {
   const [open, setOpen] = useState(false)
@@ -145,7 +202,7 @@ export default function ChatBot() {
                       <Bot className="h-4 w-4" />
                     </span>
                     <div className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-tl-sm bg-secondary/60 px-3.5 py-2.5 text-sm leading-relaxed">
-                      {m.content}
+                      {renderMessageContent(m.content)}
                     </div>
                   </div>
                 )
