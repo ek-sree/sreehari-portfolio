@@ -2,15 +2,15 @@
 
 import { cn } from "@/lib/utils"
 
-// Per-project accent pairs — distinct but cohesive with the violet system
+// Per-project accent pairs — warm amber/ochre family, cohesive with the brand
 const THEMES: [string, string][] = [
-  ["#7c5cff", "#d946ef"],
-  ["#6366f1", "#22d3ee"],
-  ["#8b5cf6", "#ec4899"],
-  ["#3b82f6", "#8b5cf6"],
-  ["#a855f7", "#6366f1"],
-  ["#0ea5e9", "#7c5cff"],
-  ["#fb7185", "#8b5cf6"],
+  ["#e6b25c", "#c9821e"],
+  ["#de9c36", "#a8681a"],
+  ["#f0a85a", "#d4622a"],
+  ["#c9821e", "#855015"],
+  ["#e6b25c", "#b9531f"],
+  ["#d9912b", "#6b4f1a"],
+  ["#eab656", "#c0531d"],
 ]
 
 interface CoverProject {
@@ -38,7 +38,7 @@ export function ProjectCover({
 
   return (
     <div
-      className={cn("relative h-full w-full overflow-hidden bg-[#0b0a12]", className)}
+      className={cn("relative h-full w-full overflow-hidden bg-[#100d09]", className)}
     >
       {/* Gradient mesh */}
       <div

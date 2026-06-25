@@ -57,18 +57,18 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Brand violet/indigo scale
+        // Brand amber / ochre scale
         brand: {
-          50: "#f1eefe",
-          100: "#e4ddfd",
-          200: "#cabbfb",
-          300: "#ab93f8",
-          400: "#8e6ef4",
-          500: "#7c5cff",
-          600: "#6a3ff0",
-          700: "#5a2fd6",
-          800: "#4a28ac",
-          900: "#3d2589",
+          50: "#fbf3e6",
+          100: "#f6e2c2",
+          200: "#eecb8e",
+          300: "#e6b25c",
+          400: "#de9c36",
+          500: "#c9821e",
+          600: "#a8681a",
+          700: "#855015",
+          800: "#694011",
+          900: "#54340e",
         },
       },
       borderRadius: {
@@ -78,9 +78,9 @@ module.exports = {
         "2xl": "calc(var(--radius) + 6px)",
       },
       boxShadow: {
-        glow: "0 0 0 1px hsl(var(--primary) / 0.18), 0 8px 40px -8px hsl(var(--primary) / 0.45)",
-        "glow-sm": "0 4px 24px -6px hsl(var(--primary) / 0.4)",
-        soft: "0 10px 40px -12px rgb(0 0 0 / 0.25)",
+        glow: "0 0 0 1px hsl(var(--primary) / 0.14), 0 12px 36px -14px hsl(var(--primary) / 0.32)",
+        "glow-sm": "0 6px 22px -10px hsl(var(--primary) / 0.32)",
+        soft: "0 12px 40px -16px rgb(0 0 0 / 0.28)",
       },
       keyframes: {
         "accordion-down": {

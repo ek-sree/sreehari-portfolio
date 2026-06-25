@@ -15,12 +15,12 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer)
-          setTimeout(onComplete, 450)
+          setTimeout(onComplete, 400)
           return 100
         }
         return prev + 3
       })
-    }, 45)
+    }, 42)
     return () => clearInterval(timer)
   }, [onComplete])
 
@@ -29,44 +29,59 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.7, ease: "easeInOut" }}
+      transition={{ duration: 0.6, ease: "easeInOut" }}
     >
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 blur-[100px]" />
+      {/* Top + bottom hairline frame — editorial print feel */}
+      <div className="pointer-events-none absolute inset-x-0 top-8 mx-auto flex max-w-md items-center justify-between px-6 text-muted-foreground md:max-w-2xl">
+        <span className="label-caps">Sreehari E K</span>
+        <span className="label-caps">Portfolio · &apos;26</span>
+      </div>
 
-      <div className="relative flex flex-col items-center gap-8">
+      <div className="relative flex flex-col items-center">
+        {/* Monogram */}
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative flex h-20 w-20 items-center justify-center"
+          initial={{ y: 8, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-card font-display text-2xl font-semibold text-primary"
         >
-          <span className="absolute inset-0 animate-spin-slow rounded-full border border-dashed border-primary/40" />
-          <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary font-display text-2xl font-bold text-primary-foreground shadow-glow">
-            S
-          </span>
+          S
         </motion.div>
 
-        <div className="text-center">
-          <h1 className="font-display text-2xl font-bold tracking-tight">
-            Sreehari E K
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Crafting digital experiences
-          </p>
-        </div>
+        {/* Name */}
+        <motion.h1
+          initial={{ y: 12, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.08, ease: "easeOut" }}
+          className="mt-6 text-center font-display text-3xl font-semibold tracking-tight sm:text-4xl"
+        >
+          Sreehari <span className="italic text-primary">E K</span>
+        </motion.h1>
 
-        <div className="flex w-56 flex-col gap-2">
-          <div className="h-1 w-full overflow-hidden rounded-full bg-secondary">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-3 label-caps"
+        >
+          Full Stack Developer
+        </motion.p>
+
+        {/* Progress */}
+        <div className="mt-10 flex w-60 flex-col gap-2.5">
+          <div className="flex items-baseline justify-between">
+            <span className="label-caps">Loading</span>
+            <span className="font-mono text-sm tabular-nums text-foreground">
+              {String(progress).padStart(3, "0")}
+            </span>
+          </div>
+          <div className="h-px w-full bg-border">
             <motion.div
-              className="h-full rounded-full bg-gradient-to-r from-primary to-fuchsia-500"
+              className="h-px bg-primary"
               initial={{ width: "0%" }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.1 }}
             />
-          </div>
-          <div className="flex justify-between text-xs text-muted-foreground">
-            <span>Loading</span>
-            <span className="font-mono">{progress}%</span>
           </div>
         </div>
       </div>

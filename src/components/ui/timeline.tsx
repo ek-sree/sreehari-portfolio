@@ -72,7 +72,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           >
             <motion.div
               style={{ height: heightTransform, opacity: opacityTransform }}
-              className="absolute inset-x-0 top-0 w-[2px] rounded-full bg-gradient-to-b from-primary via-fuchsia-500 to-transparent"
+              className="absolute inset-x-0 top-0 w-[2px] rounded-full bg-gradient-to-b from-brand-500 via-brand-400 to-transparent"
             />
           </div>
         </div>

@@ -31,7 +31,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  // Track the section currently in view
   useEffect(() => {
     const sections = NAV_LINKS.map((l) => document.getElementById(l.id)).filter(
       Boolean
@@ -60,7 +59,7 @@ export default function Navbar() {
       {/* Scroll progress bar */}
       <motion.div
         style={{ scaleX: progress }}
-        className="fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-gradient-to-r from-primary via-fuchsia-500 to-primary"
+        className="fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-gradient-to-r from-brand-500 via-brand-400 to-brand-600"
       />
 
       <motion.header

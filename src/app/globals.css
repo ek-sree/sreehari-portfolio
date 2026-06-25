@@ -4,50 +4,50 @@
 
 @layer base {
   :root {
-    /* Light — clean, calm, one violet accent */
-    --background: 250 40% 99%;
-    --foreground: 240 16% 12%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 16% 12%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 16% 12%;
-    --primary: 256 90% 62%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 250 30% 96%;
-    --secondary-foreground: 240 16% 18%;
-    --muted: 250 24% 95%;
-    --muted-foreground: 240 8% 42%;
-    --accent: 256 90% 96%;
-    --accent-foreground: 256 70% 40%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 250 20% 90%;
-    --input: 250 20% 88%;
-    --ring: 256 90% 62%;
-    --radius: 0.85rem;
+    /* Light — warm "paper", ink text, a single amber accent */
+    --background: 44 38% 96%;
+    --foreground: 38 14% 11%;
+    --card: 44 50% 99%;
+    --card-foreground: 38 14% 11%;
+    --popover: 44 50% 99%;
+    --popover-foreground: 38 14% 11%;
+    --primary: 30 84% 38%;
+    --primary-foreground: 44 50% 98%;
+    --secondary: 42 26% 91%;
+    --secondary-foreground: 38 16% 18%;
+    --muted: 42 24% 90%;
+    --muted-foreground: 38 7% 38%;
+    --accent: 36 64% 89%;
+    --accent-foreground: 30 80% 30%;
+    --destructive: 4 64% 47%;
+    --destructive-foreground: 44 50% 98%;
+    --border: 40 18% 85%;
+    --input: 40 18% 83%;
+    --ring: 30 84% 42%;
+    --radius: 0.7rem;
   }
 
   .dark {
-    /* Dark — near-black violet-tinted canvas */
-    --background: 250 22% 5%;
-    --foreground: 240 20% 96%;
-    --card: 250 18% 8%;
-    --card-foreground: 240 20% 96%;
-    --popover: 250 20% 7%;
-    --popover-foreground: 240 20% 96%;
-    --primary: 256 95% 70%;
-    --primary-foreground: 250 30% 8%;
-    --secondary: 250 14% 13%;
-    --secondary-foreground: 240 20% 92%;
-    --muted: 250 12% 12%;
-    --muted-foreground: 245 12% 64%;
-    --accent: 256 40% 18%;
-    --accent-foreground: 256 90% 88%;
-    --destructive: 0 70% 55%;
+    /* Dark — warm near-black ink with a glowing amber accent */
+    --background: 40 11% 5%;
+    --foreground: 40 22% 92%;
+    --card: 40 10% 8%;
+    --card-foreground: 40 22% 92%;
+    --popover: 40 11% 7%;
+    --popover-foreground: 40 22% 92%;
+    --primary: 35 82% 60%;
+    --primary-foreground: 40 30% 6%;
+    --secondary: 40 8% 13%;
+    --secondary-foreground: 40 18% 90%;
+    --muted: 40 7% 12%;
+    --muted-foreground: 40 8% 60%;
+    --accent: 35 32% 16%;
+    --accent-foreground: 35 80% 76%;
+    --destructive: 4 62% 53%;
     --destructive-foreground: 0 0% 100%;
-    --border: 250 14% 16%;
-    --input: 250 14% 18%;
-    --ring: 256 95% 72%;
+    --border: 40 9% 16%;
+    --input: 40 9% 18%;
+    --ring: 35 82% 62%;
   }
 }
 
@@ -66,7 +66,7 @@
     text-rendering: optimizeLegibility;
   }
   ::selection {
-    background-color: hsl(var(--primary) / 0.28);
+    background-color: hsl(var(--primary) / 0.25);
     color: hsl(var(--foreground));
   }
   h1, h2, h3, h4 {
@@ -75,29 +75,29 @@
 }
 
 @layer components {
-  /* Gradient violet text — used sparingly for emphasis */
+  /* Warm amber emphasis — used sparingly on a word or two */
   .text-gradient {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(
       100deg,
       hsl(var(--foreground)) 0%,
-      hsl(256 95% 72%) 55%,
-      hsl(286 90% 70%) 100%
+      hsl(35 82% 58%) 60%,
+      hsl(26 86% 52%) 100%
     );
   }
   .text-accent-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(100deg, hsl(256 95% 72%), hsl(286 88% 72%));
+    background-image: linear-gradient(100deg, hsl(35 84% 56%), hsl(26 86% 52%));
   }
 
   /* Eyebrow pill */
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-border bg-secondary/60 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur;
+    @apply inline-flex items-center gap-2 rounded-full border border-border bg-secondary/60 px-3 py-1 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground;
   }
 
-  /* Glass surface */
+  /* Quiet surface — restrained, low blur (editorial, not glassy) */
   .glass {
-    @apply border border-border bg-card/70 backdrop-blur-xl;
+    @apply border border-border bg-card/80 backdrop-blur-sm;
   }
 
   /* Section vertical rhythm */
@@ -105,15 +105,20 @@
     @apply relative py-24 md:py-28;
   }
 
-  /* Subtle dotted grid backdrop */
+  /* Hairline dotted grid backdrop */
   .bg-grid {
     background-image: radial-gradient(
-      hsl(var(--foreground) / 0.06) 1px,
+      hsl(var(--foreground) / 0.05) 1px,
       transparent 1px
     );
-    background-size: 22px 22px;
+    background-size: 24px 24px;
     -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
     mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+
+  /* Subtle paper grain — the editorial "hand-made" texture */
+  .bg-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
   }
 }
 
@@ -126,9 +131,13 @@
   .pause-on-hover:hover * {
     animation-play-state: paused;
   }
+  /* Thin uppercase label used for editorial captions */
+  .label-caps {
+    @apply text-[0.7rem] font-medium uppercase tracking-[0.18em] text-muted-foreground;
+  }
 }
 
-/* Custom scrollbar — violet accent */
+/* Custom scrollbar — warm amber accent */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;

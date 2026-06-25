@@ -27,7 +27,7 @@ export const skillGroups: SkillGroup[] = [
     items: [
       { name: "Node.js", color: "#5FA04E" },
       { name: "Express.js", color: "#ffffff" },
-      { name: "REST APIs", color: "#7c5cff" },
+      { name: "REST APIs", color: "#c9821e" },
       { name: "gRPC", color: "#2DB7AE" },
       { name: "RabbitMQ", color: "#FF6600" },
       { name: "Socket.IO", color: "#ffffff" },
@@ -49,7 +49,7 @@ export const skillGroups: SkillGroup[] = [
       { name: "Kubernetes", color: "#326CE5" },
       { name: "AWS", color: "#FF9900" },
       { name: "Nginx", color: "#009639" },
-      { name: "CI/CD", color: "#7c5cff" },
+      { name: "CI/CD", color: "#c9821e" },
     ],
   },
 ]

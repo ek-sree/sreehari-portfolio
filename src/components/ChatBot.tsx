@@ -2,7 +2,19 @@
 
 import React, { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Bot, X, Send, Sparkles } from "lucide-react"
+import { X, Send, BotMessageSquare } from "lucide-react"
+import { cn } from "@/lib/utils"
+
+// Small monogram used as the assistant's avatar — more personal than a generic bot icon
+function AssistantAvatar({ className = "" }: { className?: string }) {
+  return (
+    <span
+      className={`flex shrink-0 items-center justify-center rounded-lg bg-primary/12 font-display font-semibold text-primary ${className}`}
+    >
+      S
+    </span>
+  )
+}
 
 const SUGGESTIONS = [
   "Who is Sreehari?",
@@ -87,6 +99,13 @@ export default function ChatBot() {
     if (open) setTimeout(() => inputRef.current?.focus(), 250)
   }, [open])
 
+  // Allow other components (e.g. the hero card) to open the assistant
+  useEffect(() => {
+    const openHandler = () => setOpen(true)
+    window.addEventListener("open-assistant", openHandler)
+    return () => window.removeEventListener("open-assistant", openHandler)
+  }, [])
+
   const send = async (text: string) => {
     const q = text.trim()
     if (!q || loading) return
@@ -119,31 +138,49 @@ export default function ChatBot() {
 
   return (
     <>
-      {/* Launcher */}
+      {/* Launcher — one pill button so the whole "Ask AI" area is a single click target */}
       <motion.button
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Close assistant" : "Open AI assistant"}
-        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-glow"
-        whileHover={{ scale: 1.06 }}
-        whileTap={{ scale: 0.92 }}
+        aria-label={open ? "Close AI assistant" : "Ask the AI assistant"}
+        className={cn(
+          "fixed bottom-6 right-6 z-40 flex h-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-glow",
+          open ? "w-14" : "gap-2.5 pl-4 pr-5"
+        )}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.94 }}
       >
         <AnimatePresence mode="wait" initial={false}>
-          <motion.span
-            key={open ? "x" : "bot"}
-            initial={{ rotate: -90, opacity: 0 }}
-            animate={{ rotate: 0, opacity: 1 }}
-            exit={{ rotate: 90, opacity: 0 }}
-            transition={{ duration: 0.18 }}
-          >
-            {open ? <X className="h-6 w-6" /> : <Bot className="h-6 w-6" />}
-          </motion.span>
+          {open ? (
+            <motion.span
+              key="close"
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+              transition={{ duration: 0.18 }}
+            >
+              <X className="h-6 w-6" />
+            </motion.span>
+          ) : (
+            <motion.span
+              key="open"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              className="flex items-center gap-2.5"
+            >
+              <span className="relative flex">
+                <BotMessageSquare className="h-[1.4rem] w-[1.4rem]" />
+                {/* live "online" pulse */}
+                <span className="absolute -right-1 -top-1 flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-80" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-primary bg-emerald-400" />
+                </span>
+              </span>
+              <span className="text-sm font-semibold">Ask AI</span>
+            </motion.span>
+          )}
         </AnimatePresence>
-        {!open && (
-          <span className="absolute right-0 top-0 flex h-3.5 w-3.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-background bg-emerald-500" />
-          </span>
-        )}
       </motion.button>
 
       {/* Panel */}
@@ -158,13 +195,17 @@ export default function ChatBot() {
           >
             {/* Header */}
             <div className="flex items-center gap-3 border-b border-border bg-secondary/30 px-4 py-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                <Sparkles className="h-4 w-4" />
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary font-display text-base font-semibold text-primary-foreground">
+                S
               </span>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-semibold leading-tight">Ask about Sreehari</p>
                 <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> AI assistant · online
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  </span>
+                  AI assistant · online
                 </p>
               </div>
               <button
@@ -180,12 +221,10 @@ export default function ChatBot() {
             <div className="flex-1 space-y-4 overflow-y-auto px-4 py-4">
               {/* Greeting */}
               <div className="flex gap-2.5">
-                <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
-                  <Bot className="h-4 w-4" />
-                </span>
+                <AssistantAvatar className="mt-0.5 h-7 w-7 text-xs" />
                 <div className="rounded-2xl rounded-tl-sm bg-secondary/60 px-3.5 py-2.5 text-sm leading-relaxed">
-                  Hi! 👋 I&apos;m Sreehari&apos;s assistant. Ask me about his skills, experience,
-                  projects, or how to get in touch.
+                  Hi there — I&apos;m Sreehari&apos;s assistant. Ask me about his skills,
+                  experience, projects, or how to get in touch.
                 </div>
               </div>
 
@@ -198,9 +237,7 @@ export default function ChatBot() {
                   </div>
                 ) : (
                   <div key={i} className="flex gap-2.5">
-                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
-                      <Bot className="h-4 w-4" />
-                    </span>
+                    <AssistantAvatar className="mt-0.5 h-7 w-7 text-xs" />
                     <div className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-tl-sm bg-secondary/60 px-3.5 py-2.5 text-sm leading-relaxed">
                       {renderMessageContent(m.content)}
                     </div>
@@ -210,9 +247,7 @@ export default function ChatBot() {
 
               {loading && (
                 <div className="flex gap-2.5">
-                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
-                    <Bot className="h-4 w-4" />
-                  </span>
+                  <AssistantAvatar className="mt-0.5 h-7 w-7 text-xs" />
                   <div className="flex items-center gap-1 rounded-2xl rounded-tl-sm bg-secondary/60 px-4 py-3.5">
                     {[0, 1, 2].map((d) => (
                       <span

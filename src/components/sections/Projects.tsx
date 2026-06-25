@@ -139,9 +139,9 @@ export default function Projects() {
                         <Github className="h-4 w-4" /> Code
                       </a>
                     )}
-                    {project.live && (
+                    {project?.live && (
                       <a
-                        href={project.live}
+                        href={project?.live}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/40 px-5 py-2.5 text-sm font-semibold transition-colors hover:border-primary/40 hover:text-primary"

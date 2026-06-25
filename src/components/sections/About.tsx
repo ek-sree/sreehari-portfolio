@@ -2,13 +2,13 @@
 
 import { motion } from "framer-motion"
 import SectionHeading from "@/components/ui/section-heading"
-import { Code2, Rocket, MapPin, Sparkles, GraduationCap, Users } from "lucide-react"
+import { Code2, Rocket, MapPin, Puzzle, GraduationCap, Users } from "lucide-react"
 
 const TRAITS = [
   { icon: Code2, label: "Clean code" },
   { icon: Users, label: "Team player" },
   { icon: GraduationCap, label: "Fast learner" },
-  { icon: Sparkles, label: "Problem solver" },
+  { icon: Puzzle, label: "Problem solver" },
 ]
 
 const HIGHLIGHTS = [

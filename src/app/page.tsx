@@ -32,26 +32,6 @@ export default function Home() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            name: "Sreehari E K",
-            url: "https://sreehariek.com",
-            sameAs: [
-              "https://github.com/ek-sree?tab=repositories",
-              "https://www.linkedin.com/in/sreehari-ek/",
-              "https://www.instagram.com/sree.hari.ek/",
-            ],
-            jobTitle: "Full Stack Developer",
-            worksFor: { "@type": "Organization", name: "Freelance / Open to Work" },
-            description: "MERN Stack Developer passionate about full stack applications.",
-          }),
-        }}
-      />
-
       <AnimatePresence mode="wait">
         {loading && <Preloader key="preloader" onComplete={handlePreloaderComplete} />}
       </AnimatePresence>
@@ -65,10 +45,10 @@ export default function Home() {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="relative min-h-screen overflow-x-clip bg-background text-foreground"
           >
-            {/* Ambient background glows */}
             <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-              <div className="absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-primary/20 blur-[120px] dark:bg-primary/15" />
-              <div className="absolute bottom-0 right-[-10%] h-[420px] w-[520px] rounded-full bg-fuchsia-500/10 blur-[120px]" />
+              <div className="absolute -top-44 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-primary/10 blur-[130px] dark:bg-primary/[0.08]" />
+              <div className="absolute bottom-0 right-[-10%] h-[420px] w-[520px] rounded-full bg-brand-400/[0.06] blur-[130px]" />
+              <div className="bg-grain absolute inset-0 opacity-[0.025] dark:opacity-[0.04]" />
             </div>
 
             <Navbar />

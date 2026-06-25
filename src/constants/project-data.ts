@@ -45,7 +45,7 @@ import netflixGpt3 from '../../public/netflixgpt/3.png'
 import netflixGpt4 from '../../public/netflixgpt/4.png'
 import netflixGpt5 from '../../public/netflixgpt/5.png'
 
-export const projects = [
+const projectsData = [
   {
     id: 1,
     title: "Hirehub",
@@ -66,7 +66,6 @@ export const projects = [
     architecture: ["Microservices architecture", "Clean architecture"],
     github: "https://github.com/ek-sree/HireHub_client.git",
     images: [hirehub1, hirehub2, hirehub3, hirehub4, hirehub5, hirehub6, hirehub, hirehub7, hirehub8, hirehub9, hirehub10, hirehub11, hirehub12, hirehub13, hirehub14, hirehub15, hirehub16],
-    live: "https://hirehub.pro",
     link: "/projects/1"
   },
   {
@@ -111,7 +110,6 @@ export const projects = [
     architecture: ["App Router architecture"],
     github: "https://github.com/ek-sree/toolhive.git",
     images: [],
-    live: "https://toolhive-iota.vercel.app",
     link: "/projects/3"
   },
   {
@@ -177,7 +175,6 @@ export const projects = [
     architecture: ["MVC architecture"],
     github: "https://github.com/ek-sree/TimeZone.git",
     images: [timezone, timezone1, timezone2, timezone3, timezone4, timezone5, timezone6, timezone7, timezone8, timezone9, timezone10, timezone11, timezone12, timezone13, timezone14, timezone15, timezone16, timezone17, timezone18],
-    live: "https://thetimezone.official",
     link: "/projects/6"
   },
   {
@@ -224,3 +221,9 @@ export const projects = [
     link: "/projects/8"
   }
 ]
+
+// `live` is an optional external demo URL — absent for now, so the
+// "Live demo" buttons stay hidden until a project gets one.
+export type Project = (typeof projectsData)[number] & { live?: string }
+
+export const projects: Project[] = projectsData

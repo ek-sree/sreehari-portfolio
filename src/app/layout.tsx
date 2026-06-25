@@ -1,8 +1,10 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google"
+import { Inter, Fraunces, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import StructuredData from "@/components/StructuredData"
+import { siteConfig } from "@/lib/seo"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -10,10 +12,12 @@ const inter = Inter({
   display: "swap",
 })
 
-const spaceGrotesk = Space_Grotesk({
+const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
 })
 
 const jetbrainsMono = JetBrains_Mono({
@@ -23,45 +27,69 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sreehariek.com"),
-  title: "Sreehari E K | Full Stack Engineer | MERN Stack Developer",
-  description:
-    "I'm Sreehari E K, a passionate MERN stack developer building scalable full stack applications with React, Node.js, and MongoDB.",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  applicationName: `${siteConfig.name} Portfolio`,
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  category: "technology",
   keywords: [
     "Sreehari E K",
+    "Sreehari E K portfolio",
     "MERN stack developer",
-    "full stack developer",
+    "full stack developer Kerala",
     "React developer",
-    "MongoDB developer",
-    "Express.js developer",
-    "React Native developer",
-    "TypeScript developer",
     "Next.js developer",
+    "React Native developer",
     "Node.js developer",
-    "JavaScript developer",
-    "developer portfolio",
-    "hire Sreehari",
+    "TypeScript developer",
+    "MongoDB developer",
+    "hire full stack developer",
+    "freelance developer India",
+    "software engineer portfolio",
   ],
-  authors: [{ name: "Sreehari E K" }],
-  creator: "Sreehari E K",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "Sreehari E K | MERN Stack Developer | Full Stack Engineer",
-    description: "Portfolio of Sreehari E K, an experienced full stack MERN developer.",
-    url: "https://sreehariek.com",
-    siteName: "Sreehari E K Portfolio",
-    locale: "en_US",
     type: "website",
+    url: siteConfig.url,
+    siteName: `${siteConfig.name} — Portfolio`,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    locale: siteConfig.locale,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/s-icon.png",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 }
 
 export const viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b0810" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f1e8" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d0c0a" },
   ],
 }
 
@@ -73,8 +101,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}
+        className={`${inter.variable} ${fraunces.variable} ${jetbrainsMono.variable} font-sans`}
       >
+        <StructuredData />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
